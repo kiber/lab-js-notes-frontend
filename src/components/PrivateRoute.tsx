@@ -10,7 +10,7 @@ interface Props {
 const PrivateRoute = ({ children }: Props) => {
   const auth = useContext(AuthContext);
 
-  if (!auth?.token) {
+  if (!auth?.accessToken) {
     return <Navigate to="/login" />;
   }
 

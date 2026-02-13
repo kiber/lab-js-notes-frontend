@@ -1,14 +1,20 @@
 import notesApi from "./axiosNotes";
-import type { Note } from "../types/note.types";
+import type { ApiResponse, Note, NotesMeta } from "../types/note.types";
 
-export const getNotes = () =>
-  notesApi.get<Note[]>("/notes");
+export const getNotes = async () => {
+  const response = await notesApi.get<ApiResponse<Note[], NotesMeta>>("/notes");
+  return response.data;
+};
 
-export const createNote = (data: Partial<Note>) =>
-  notesApi.post<Note>("/notes", data);
+export const createNote = async (data: Partial<Note>) => {
+  const response = await notesApi.post<ApiResponse<Note>>("/notes", data);
+  return response.data;
+};
 
-export const updateNote = (id: string, data: Partial<Note>) =>
-  notesApi.put<Note>(`/notes/${id}`, data);
+export const updateNote = async (id: string, data: Partial<Note>) => {
+  const response = await notesApi.put<ApiResponse<Note>>(`/notes/${id}`, data);
+  return response.data;
+};
 
 export const deleteNote = (id: string) =>
-  notesApi.delete(`/notes/${id}`);
+  notesApi.delete<ApiResponse<null>>(`/notes/${id}`);
