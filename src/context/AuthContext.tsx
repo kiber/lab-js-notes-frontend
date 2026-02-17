@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import type { ReactNode } from "react";
 
 interface AuthContextType {
@@ -15,16 +15,12 @@ interface Props {
 }
 
 export const AuthProvider = ({ children }: Props) => {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedAccess = localStorage.getItem("accessToken");
-    const storedRefresh = localStorage.getItem("refreshToken");
-
-    if (storedAccess) setAccessToken(storedAccess);
-    if (storedRefresh) setRefreshToken(storedRefresh);
-  }, []);
+  const [accessToken, setAccessToken] = useState<string | null>(() =>
+    localStorage.getItem("accessToken")
+  );
+  const [refreshToken, setRefreshToken] = useState<string | null>(() =>
+    localStorage.getItem("refreshToken")
+  );
 
   const login = (access: string, refresh: string) => {
     localStorage.setItem("accessToken", access);
